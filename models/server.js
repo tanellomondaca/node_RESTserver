@@ -18,21 +18,27 @@ class Server {
     }
 
     routes() {
+
+        //según cada petición que se haga el servidor devuelve una respuesta diferente
+        //GET
         this.app.get("/api", (req, res) => {
             res.json({
                 msg: "get API"
             });
         });
+        //PUT
         this.app.put("/api", (req, res) => {
             res.json({
                 msg: "put API"
             });
         });
+        //POST
         this.app.post("/api", (req, res) => {
             res.json({
                 msg: "post API"
             });
         });
+        // DELETE
         this.app.delete("/api", (req, res) => {
             res.json({
                 msg: "delete API"
