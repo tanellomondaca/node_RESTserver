@@ -34,7 +34,7 @@ class Server {
         });
         //POST
         this.app.post("/api", (req, res) => {
-            res.json({
+            res.status(201).json({  //envio de cogido de respuesta para exponer el status de la petición
                 msg: "post API"
             });
         });
