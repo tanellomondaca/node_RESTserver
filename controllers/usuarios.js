@@ -1,8 +1,11 @@
-const { response } = require('express');
+const { response, request } = require('express');
 
-const usuariosGet = (req, res = response) => {
+const usuariosGet = (req = request, res = response) => {
+    const query = req.query;
+
     res.json({
         msg: "Get desde controllers API",
+        query
     });
 }
     
@@ -16,8 +19,11 @@ const usuariosPost = (req, res = response) => {
 }
     
 const usuariosPut = (req, res = response) => {
+    const id = req.params.id;
+
     res.json({
         msg: "PUT  desde controllers API",
+        id
     });
 }
     

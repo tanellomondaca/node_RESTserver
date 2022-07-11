@@ -14,7 +14,7 @@ const router = Router();
 //GET
 router.get("/", usuariosGet);
 //PUT
-router.put("/", usuariosPut);
+router.put("/:id", usuariosPut);
 //POST
 router.post("/", usuariosPost);
 // DELETE
