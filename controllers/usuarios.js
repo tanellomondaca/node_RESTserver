@@ -7,8 +7,11 @@ const usuariosGet = (req, res = response) => {
 }
     
 const usuariosPost = (req, res = response) => {
+    const body = req.body;
+    
     res.json({
         msg: "POST desde controllers API",
+        body
     });
 }
     
