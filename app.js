@@ -1,14 +1,11 @@
 require('dotenv').config();
 
-const express = require('express')
-const app = express()
-const port = process.env.PORT;  //VARIABLE GLOBAL PARA PUERTO
+//Importamos class de servidor para usarla aqui
+const Server = require('./models/server');
 
-app.get('/', (req, res) => {
-  res.send('HOLANDA REYES!')
-})
+//inicializamos el nuevo servidor
+const server = new Server();
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+//Iniciamos el servidor con el metodo de escucha
+server.listen();
 
