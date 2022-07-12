@@ -2,7 +2,7 @@ const { response, request } = require("express");
 
 const bcryptjs = require('bcryptjs');
 const Usuario = require("../models/usuario");
-const usuario = require("../models/usuario");
+
 
 const usuariosGet = (req = request, res = response) => {
     const query = req.query;
@@ -16,14 +16,6 @@ const usuariosGet = (req = request, res = response) => {
 const usuariosPost = async (req, res = response) => {
     const { nombre, correo, password, rol } = req.body;
     const usuario = new Usuario({nombre, correo, password, rol}); //nueva instancia de usuario que recibe y asigna los datos al modelo
-
-    //  Verificar si el correo existe
-    const existeEmail = await Usuario.findOne({ correo });
-    if( existeEmail ) {
-        return res.status(400).json({
-            msg: 'Ese correo ya está registrado.'
-        });
-    }
 
     // Encriptar contraseña
     const salt = bcryptjs.genSaltSync(); // numero de vueltas de encriptacion, 10 por defecto
