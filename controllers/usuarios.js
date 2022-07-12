@@ -2,7 +2,7 @@ const { response, request } = require("express");
 
 const bcryptjs = require("bcryptjs");
 const Usuario = require("../models/usuario");
-const usuario = require("../models/usuario");
+
 
 const usuariosGet = (req = request, res = response) => {
     const query = req.query;
@@ -38,7 +38,7 @@ const usuariosPost = async (req, res = response) => {
 
 const usuariosPut = async (req, res = response) => {
     const id = req.params.id;
-    const { password, google, correo,...resto } = req.body;
+    const { _id, password, google, correo,...resto } = req.body;
 
     // TODO: validar id contra base de datos
     if (password) {
