@@ -1,8 +1,8 @@
 const { response, request } = require("express");
 
-const bcryptjs = require('bcryptjs');
+const bcryptjs = require("bcryptjs");
 const Usuario = require("../models/usuario");
-
+const usuario = require("../models/usuario");
 
 const usuariosGet = (req = request, res = response) => {
     const query = req.query;
@@ -15,7 +15,7 @@ const usuariosGet = (req = request, res = response) => {
 
 const usuariosPost = async (req, res = response) => {
     const { nombre, correo, password, rol } = req.body;
-    const usuario = new Usuario({nombre, correo, password, rol}); //nueva instancia de usuario que recibe y asigna los datos al modelo
+    const usuario = new Usuario({ nombre, correo, password, rol }); //nueva instancia de usuario que recibe y asigna los datos al modelo
 
     // Encriptar contraseña
     const salt = bcryptjs.genSaltSync(); // numero de vueltas de encriptacion, 10 por defecto
@@ -24,7 +24,7 @@ const usuariosPost = async (req, res = response) => {
     // Guardar en base de datos
     await usuario
         .save()
-        .then( () => console.log("Usuario grabado exitosamente."))
+        .then(() => console.log("Usuario grabado exitosamente."))
         .catch((error) => {
             console.log("Algo no salió bien");
             console.log(error);
@@ -36,12 +36,22 @@ const usuariosPost = async (req, res = response) => {
     });
 };
 
-const usuariosPut = (req, res = response) => {
+const usuariosPut = async (req, res = response) => {
     const id = req.params.id;
+    const { password, google, correo,...resto } = req.body;
+
+    // TODO: validar id contra base de datos
+    if (password) {
+        // encriptar contraseña
+        const salt = bcryptjs.genSaltSync(); // numero de vueltas de encriptacion, 10 por defecto
+        resto.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const usuario = await Usuario.findByIdAndUpdate(id, resto);
 
     res.json({
         msg: "PUT  desde controllers API",
-        id,
+        usuario,
     });
 };
 
