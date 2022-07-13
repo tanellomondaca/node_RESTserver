@@ -7,11 +7,21 @@ const Usuario = require("../models/usuario");
 const usuariosGet = async (req = request, res = response) => {
     
     const { limite = 5, desde = 0} = req.query; //paginacion
-    const usuarios = await Usuario.find()
-        .skip( Number(desde) )
-        .limit( Number(limite) ) // Se castea el dato para que sea un número
 
-    const total = await Usuario.countDocuments();
+    // const usuarios = await Usuario.find()
+    //     .skip( Number(desde) )
+    //     .limit( Number(limite) ) // Se castea el dato para que sea un número
+
+    // const total = await Usuario.countDocuments();
+
+    // Se resuelven las promesas simultaneamente y entrega la respuesta
+    // cuando ambas estan resueltas
+    const [total, usuarios] = await Promise.all([
+        Usuario.countDocuments(),
+        Usuario.find()
+        .skip( Number(desde) )
+        .limit( Number(limite) )
+    ]);
 
     res.json({
         total,
