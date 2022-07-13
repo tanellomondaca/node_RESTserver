@@ -71,9 +71,20 @@ const usuariosPut = async (req, res = response) => {
     });
 };
 
-const usuariosDelete = (req, res = response) => {
+const usuariosDelete = async (req, res = response) => {
+    const { id } = req.params;
+
+    // Borrado físico
+    /* No es recomendable ya que podemos perder la integridad referencial de los datos */
+    // const usuario = await Usuario.findByIdAndDelete(id);
+
+
+    const usuario = await Usuario.findByIdAndUpdate(id, {estado: false});
+
     res.json({
-        msg: "DELETE desde controllers API",
+        id,
+        usuario,
+        msg: "Usuario eliminado exitosamente.",
     });
 };
 
