@@ -4,12 +4,18 @@ const bcryptjs = require("bcryptjs");
 const Usuario = require("../models/usuario");
 
 
-const usuariosGet = (req = request, res = response) => {
-    const query = req.query;
+const usuariosGet = async (req = request, res = response) => {
+    
+    const { limite = 5, desde = 0} = req.query; //paginacion
+    const usuarios = await Usuario.find()
+        .skip( Number(desde) )
+        .limit( Number(limite) ) // Se castea el dato para que sea un número
+
+    const total = await Usuario.countDocuments();
 
     res.json({
-        msg: "Get desde controllers API",
-        query,
+        total,
+        usuarios
     });
 };
 
