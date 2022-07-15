@@ -74,19 +74,24 @@ const usuariosPut = async (req, res = response) => {
 const usuariosDelete = async (req, res = response) => {
     const { id } = req.params;
 
+    const usuarioLoggeado = req.usuario;
+
     // Borrado físico
     /* No es recomendable ya que podemos perder la integridad referencial de los datos */
     // const usuario = await Usuario.findByIdAndDelete(id);
 
-
+    // Borrado recomendado
     const usuario = await Usuario.findByIdAndUpdate(id, {estado: false});
 
     res.json({
-        id,
-        usuario,
+        msg1: 'Usuario logeado',
+        usuarioLoggeado,
         msg: "Usuario eliminado exitosamente.",
+        usuario,
+
     });
 };
+
 
 const usuariosPatch = (req, res = response) => {
     res.json({
