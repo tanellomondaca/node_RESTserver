@@ -74,7 +74,7 @@ const usuariosPut = async (req, res = response) => {
 const usuariosDelete = async (req, res = response) => {
     const { id } = req.params;
 
-    const usuarioLoggeado = req.userLogged;
+    const usuarioLoggeado = req.usuario;
 
     // Borrado físico
     /* No es recomendable ya que podemos perder la integridad referencial de los datos */

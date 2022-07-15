@@ -1,6 +1,5 @@
 const { request, response } = require('express');
 const jwt = require('jsonwebtoken');
-const usuario = require('../models/usuario');
 const Usuario = require('../models/usuario');
 
 const validarJWT = async (req = request, res = response, next) => {
@@ -19,8 +18,9 @@ const validarJWT = async (req = request, res = response, next) => {
 
 
         // leer el usuario que corresponde al uid que esta aqui
-        req.userLogged = await Usuario.findById(uid); //
-        
+        const usuario = await Usuario.findById(uid);
+        req.usuario = usuario; //
+
         //Validar existencia de usuario
         if ( !usuario ) {
             return res.status(401).json({
