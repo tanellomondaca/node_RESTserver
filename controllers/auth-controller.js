@@ -2,6 +2,7 @@ const { response } = require('express');
 const Usuario = require('../models/usuario');
 const bcryptjs = require('bcryptjs');
 const { generarJWT } = require('../helpers/generar-jwt');
+const { googleVerify } = require('../helpers/google.verify');
 
 const login = async (req, res = response) => {
     const {correo, password} = req.body;
@@ -50,11 +51,46 @@ const login = async (req, res = response) => {
 
 const googleSingIn = async (req, res = response) => {
     const {id_token}= req.body;
+    try {
+        const {nombre, img, correo} = await googleVerify(id_token);
+        // Buscamos si existe el usuario en la base de datos
+        let usuario = await Usuario.findOne({ correo });
 
-    res.json({
-        msg: 'Todo bien',
-        id_token
-    })
+        if ( !usuario ) { // Si el usuario no existe
+            //Tengo que crearlo
+            const data = { // Data que necesito grabar
+                nombre,         // Las variables correo, nombre y
+                correo,         // img son extraídas de usuario
+                password: ':P',
+                rol: 'USER_ROLE',
+                img,
+                google: true
+                
+            };
+            usuario = new Usuario(data);
+            await usuario.save();
+
+        }
+        // Si el usuario en DB está en false
+        if( !usuario.estado ) {
+            return res.status(401).json({
+                msg: 'Hable con el administrador, usuario bloqueado'
+            })
+        }
+        // Generar JWT+}
+        const token = await generarJWT(usuario.id);
+        
+        res.json({
+            usuario,
+            token
+        })
+    } catch (error) {
+        res.status(400).json({
+            ok: false,
+            msg: 'El token no se pudo verificar.',
+            msg2: error
+        })
+    }
 }
 
 module.exports = {
