@@ -23,6 +23,7 @@ const usuariosGet = async (req = request, res = response) => {
         .limit( Number(limite) )
     ]);
 
+    
     res.json({
         total,
         usuarios
