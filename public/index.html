@@ -37,8 +37,8 @@
                 // console.log('ID Token', response.credential);
 
                 const body = { id_token: response.credential};
-
-                fetch("http://localhost:8080/api/auth/google", {
+                //Cambio para desplege en heroku
+                fetch("https://restserver-tanelo.herokuapp.com/api/auth/google", {
                     method: 'POST',
                     headers: {
                         'Content-Type':'application/json'
