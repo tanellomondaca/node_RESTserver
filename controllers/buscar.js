@@ -16,10 +16,22 @@ const buscarUsuarios = async(termino = '', res = response) => {
 
     if (esMongoId) {
         const usuario = await Usuario.findById(termino);
-        res.json({
+        return res.json({
             results: (usuario) ? [usuario] : []
         })
     }
+
+    const regex = new RegExp(termino, 'i'); //Expresion regular para hacer la busqueda insensible a mayusculas
+    console.log(regex);
+
+    const usuarios = await Usuario.find({
+        $or: [{nombre: regex }, {correo: regex}],  // Bandera del find, or es para hacer mas de una consulta, busca segun un criterio o el otro
+        $and: [{estado: true}]
+    });
+
+    return res.json({
+            results: usuarios
+        })
 };
 
 const buscar = (req, res = response) => {
@@ -51,12 +63,6 @@ const buscar = (req, res = response) => {
             break;
     }
 
-
-
-    res.json({
-        coleccion,
-        termino
-    })
 };
 
 module.exports = {
