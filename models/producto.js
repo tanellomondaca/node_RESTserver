@@ -13,10 +13,10 @@ const ProductoSchema = Schema({
     },
     usuario: {
         type: Schema.Types.ObjectId,
-        ref: 'Usuario', // Hacemos ligadura entre el usuario y la categoria
+        ref: 'Usuario',
         required: true
     },
-    precio:{
+    precio: {
         type: Number,
         default: 0
     },
@@ -25,18 +25,15 @@ const ProductoSchema = Schema({
         ref: 'Categoria',
         required: true
     },
-    descripcion: {
-        type: String
-    },
-    disponible: {
-        type: Boolean,
-        default: true
-    }
+    descripcion: { type: String },
+    disponible: { type: Boolean, defult: true },
 });
 
-ProductoSchema.methods.toJSON = function () {
-    const {__v, estado,...data} = this.toObject();
-    return data;
-};
 
-module.exports = model('Producto', ProductoSchema );
+ProductoSchema.methods.toJSON = function() {
+    const { __v, estado, ...data  } = this.toObject();
+    return data;
+}
+
+
+module.exports = model( 'Producto', ProductoSchema );

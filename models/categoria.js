@@ -13,14 +13,16 @@ const CategoriaSchema = Schema({
     },
     usuario: {
         type: Schema.Types.ObjectId,
-        ref: 'Usuario', // Hacemos ligadura entre el usuario y la categoria
+        ref: 'Usuario',
         required: true
     }
 });
 
-CategoriaSchema.methods.toJSON = function () {
-    const {__v, estado,...data} = this.toObject();
-    return data;
-};
 
-module.exports = model('Categoria', CategoriaSchema );
+CategoriaSchema.methods.toJSON = function() {
+    const { __v, estado, ...data  } = this.toObject();
+    return data;
+}
+
+
+module.exports = model( 'Categoria', CategoriaSchema );
