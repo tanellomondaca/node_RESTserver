@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { Usuario } = require('../models');
+const { Usuario, Categoria, Producto } = require('../models');
 const { ObjectId } = require('mongoose').Types;
 
 // Colecciones validas que yo he creado
@@ -34,6 +34,52 @@ const buscarUsuarios = async(termino = '', res = response) => {
         })
 };
 
+const buscarCategorias = async(termino = '', res = response) => {
+    // Validar si el termino es un mongo id
+    const esMongoId = ObjectId.isValid( termino );
+
+    if (esMongoId) {
+        const categoria = await Categoria.findById(termino);
+        return res.json({
+            results: (categoria) ? [categoria] : []
+        })
+    }
+
+    const regex = new RegExp(termino, 'i'); //Expresion regular para hacer la busqueda insensible a mayusculas
+    console.log(regex);
+
+    const categoriasEncontradas = await Categoria.find({
+        $and: [{estado: true}, {nombre: regex }]
+    });
+
+    return res.json({
+            results: categoriasEncontradas
+        })
+};
+
+const buscarProductos = async(termino = '', res = response) => {
+    // Validar si el termino es un mongo id
+    const esMongoId = ObjectId.isValid( termino );
+
+    if (esMongoId) {
+        const producto = await Producto.findById(termino).populate('categoria','nombre');
+        return res.json({
+            results: (producto) ? [producto] : []
+        })
+    }
+
+    const regex = new RegExp(termino, 'i'); //Expresion regular para hacer la busqueda insensible a mayusculas
+    console.log(regex);
+
+    const productosEncontradas = await Producto.find({
+        $and: [{estado: true}, {nombre: regex }]
+    }).populate('categoria','nombre');
+
+    return res.json({
+            results: productosEncontradas
+        })
+};
+
 const buscar = (req, res = response) => {
     const {coleccion, termino} = req.params;
 
@@ -47,11 +93,16 @@ const buscar = (req, res = response) => {
     //
     switch (coleccion) {
         case 'categorias':
+            buscarCategorias(termino,res);
             break;
+
         case 'productos':
+            buscarProductos(termino,res);
             break;
+
         case 'roles':
             break;
+
         case 'usuarios':
             buscarUsuarios(termino,res);
             break;
