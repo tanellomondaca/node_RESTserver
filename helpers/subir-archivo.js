@@ -26,12 +26,13 @@ const subirArchivo = (files, extensionesValidas = ['png','jpg','jpeg','gif','pdf
                 return reject(err)
             }
     
-            resolve(uploadPath)
+            resolve(nombreTemp)
         });
 
     });
 
 };
+
 
 module.exports = {
     subirArchivo
