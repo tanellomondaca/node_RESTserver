@@ -9,7 +9,10 @@ const { coleccionesPermitidas } = require('../helpers/db-validators');
 const router = Router();
 
 
-router.post('/', cargarArchivo);
+router.post('/',[
+    validarArchivo,
+    validarCampos
+], cargarArchivo);
 
 router.put('/:coleccion/:id',[
     check('id', 'El id debe ser de Mongo').isMongoId(),
