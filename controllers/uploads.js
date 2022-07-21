@@ -95,9 +95,8 @@ const mostrarImagen = async (req, res = response) => {
             return res.status(500).json({ msg: "Se me olvido validar esto" });
     }
 
-    // Limpiar imagenes previas
+    // Buscar imagen del modelo
     if (modelo.img) {
-        // Hay que borrar la imagen del servidor
         const pathImagen = path.join(
             __dirname,
             "../uploads",
@@ -109,7 +108,8 @@ const mostrarImagen = async (req, res = response) => {
         }
     }
 
-    res.json({ msg: 'Falta placeholder'});
+    const pathImagen = path.join(__dirname,'../assets/no-image.jpg');
+    res.sendFile(pathImagen);
 };
 
 module.exports = {
