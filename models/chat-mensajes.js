@@ -30,6 +30,9 @@ class ChatMensajes{
 
     conectarUsuario(usuario) {
         this.usuarios[usuario.id] = usuario
+        console.log('Usuario agregado a array');
+        console.log(this.usuariosArr);
+
     }
 
     desconectarUsuario ( id ) {
