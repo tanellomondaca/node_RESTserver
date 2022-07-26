@@ -55,7 +55,6 @@ const login = async(req, res = response) => {
 
 
 const googleSignin = async(req, res = response) => {
-
     const { id_token } = req.body;
     
     try {
@@ -76,7 +75,7 @@ const googleSignin = async(req, res = response) => {
             usuario = new Usuario( data );
             await usuario.save();
         }
-
+        
         // Si el usuario en DB
         if ( !usuario.estado ) {
             return res.status(401).json({
