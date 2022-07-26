@@ -92,7 +92,7 @@ const googleSignin = async(req, res = response) => {
         });
         
     } catch (error) {
-
+        
         res.status(400).json({
             msg: 'Token de Google no es válido'
         })
@@ -103,9 +103,21 @@ const googleSignin = async(req, res = response) => {
 
 }
 
+const renovarToken = async (req, res) => {
+    const { usuario } = req;
 
+    // Generar el JWT
+    const token = await generarJWT( usuario.id );
+    
+    
+    res.json({
+        usuario,
+        token
+    })
+}
 
 module.exports = {
     login,
-    googleSignin
+    googleSignin,
+    renovarToken
 }
