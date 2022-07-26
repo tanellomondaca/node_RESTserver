@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {Usuario} = require('../models/usuario'); 
+const { Usuario } = require('../models')
 
 
 
@@ -36,11 +36,9 @@ const comprobarJWT = async (token ='') => {
 
         if (usuario){
             if(usuario.estado){
-
                 return usuario
             }else{
                 console.log('as1');
-
                 return null;
             }
         }else{
@@ -50,7 +48,7 @@ const comprobarJWT = async (token ='') => {
         }
 
     } catch (error) {
-        console.log('as3');
+        console.log(error);
 
         return null;
     }
